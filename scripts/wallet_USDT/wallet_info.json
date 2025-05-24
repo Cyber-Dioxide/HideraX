@@ -1,0 +1,10 @@
+{
+    "ethereum": {
+        "address": "0xF0FB812B06506CAb40eB0AA1Bd2b2B19E00d2812",
+        "private_key": "d282cb9c998cf0472b838e246f25ad7176ba83afa8505b6ddc1222823718e317"
+    },
+    "tron": {
+        "address": "THQ24YubEnD2Tw8EcCVibk3Dq5UEAHxTh9",
+        "private_key": "e11106ee774af67f9bf312febbf0202213c5c30f6ccae1edb194ee1489458b24"
+    }
+}
