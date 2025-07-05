@@ -1,11 +1,12 @@
-# AirGapped-Wallet
-A secure, offline-ready, cross-platform crypto wallet manager for BTC, ETH, USDT, POL. One tool to control them all.
-🔐 Your all-in-one solution for managing BTC, ETH, USDT (ERC20/TRC20), POL & more!
+# 📦 Hiderax Wallet CLI
+**By [Hiderox Technologies](https://www.hiderox.com)**  
+A secure, local-first multi-crypto wallet CLI built for privacy-conscious users.  
+Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT, Dogecoin (DOGE), and more — right from your terminal.
 
 ---
 # 📸 Screenshots
 
-![Screenshot 2025-05-19 130146](https://github.com/user-attachments/assets/69f2b656-6d1e-460e-afc2-998a0bdd0c21)
+![image](https://github.com/user-attachments/assets/23ae055b-0ccc-4ee9-85e0-a8aa0f37ecb2)
 ![image](https://github.com/user-attachments/assets/54a486c0-537f-4b1e-819e-353425aba285)
 ![image](https://github.com/user-attachments/assets/8b2ba410-23d5-4910-8d2d-5c701674b3e0)
 
@@ -29,7 +30,8 @@ A secure, offline-ready, cross-platform crypto wallet manager for BTC, ETH, USDT
 - Ethereum (ETH)
 - Tether (USDT - ERC20 & TRC20)
 - Polygon (POL)
-
+- Litecoing (LTC
+- Doge (DOGE)
 ---
 
 ## 🔐 Security Features
@@ -62,18 +64,20 @@ Your support helps keep the project alive and free for everyone. Thank you!
 Clone the repository and follow platform-specific instructions:
 
 ```bash
-git clone https://github.com/Cyber-Dioxide/AirGapped-Wallet
-cd AirGapped-Wallet
+git clone https://github.com/Cyber-Dioxide/HideraX
+cd HideraX
 pip install -r requirements
 python main.py
 ``` 
 
 # 📬 Contact
 
-    Instagram: @coding_memz
+    Instagram: @hiderox.t
 
     WhatsApp: +84366433687
 
-    Telegram: @cyberoxide
+    Telegram: @hiderox.t
+
+    Email: info@hiderox.com
 
 🚫 No bloat. No gimmicks. Just crypto — your way.
