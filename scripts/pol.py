@@ -1,3 +1,4 @@
+import qrcode
 from web3 import Web3, Account
 from eth_account.messages import encode_defunct
 from rich.console import Console
@@ -34,7 +35,8 @@ def create_wallet():
     with open(WALLET_FILE, "w") as f:
         json.dump(wallet_data, f, indent=4)
 
-    console.print(Panel.fit(f"[green]Wallet Created Successfully![/green]\nAddress: [bold cyan]{acct.address}[/bold cyan]"))
+    console.print(
+        Panel.fit(f"[green]Wallet Created Successfully![/green]\nAddress: [bold cyan]{acct.address}[/bold cyan]"))
 
 
 def load_wallet():
@@ -62,12 +64,23 @@ def view_wallet():
                             title="[green]Wallet Info[/green]"))
 
 
-
 def receive_matic():
     wallet = load_wallet()
     if not wallet:
+        console.print("[red]❌ Wallet not found.[/red]\n")
         return
-    console.print(Panel.fit(f"[bold cyan]Receive MATIC Address:[/bold cyan]\n{wallet['address']}"))
+
+    address = wallet['address']
+
+    console.print(Panel.fit(f"[bold cyan]Receive MATIC Address:[/bold cyan]\n{address}",
+                            title="📥 [magenta]MATIC Wallet[/magenta]"))
+
+    # Display QR code
+    console.print("[bold green]Scan this QR to receive MATIC:[/bold green]")
+    qr = qrcode.QRCode(border=1)
+    qr.add_data(address)
+    qr.make(fit=True)
+    qr.print_ascii(invert=True)
 
 
 def send_matic():

@@ -2,6 +2,7 @@ import os
 import json
 import sys
 
+import qrcode
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
@@ -14,7 +15,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WALLET_DIR = os.path.join(BASE_DIR, "wallet_USDT")
 WALLET_FILE = os.path.join(WALLET_DIR, "wallet_info.json")
 
-
 # Infura or Alchemy or your Ethereum node
 ETH_RPC_URL = "https://mainnet.infura.io/v3/ae6132a817bc4f029109a313dd848182"
 w3 = Web3(Web3.HTTPProvider(ETH_RPC_URL))
@@ -25,6 +25,7 @@ tron = Tron()
 # USDT contract addresses
 USDT_ERC20_CONTRACT = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
 USDT_TRC20_CONTRACT = "TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj"  # TRC20 USDT contract address
+
 
 def wallet_exists():
     return os.path.exists(WALLET_FILE)
@@ -47,6 +48,7 @@ def view_wallet():
                             f"[bold magenta]Tron Wallet[/bold magenta]\n"
                             f"Address: {tron_address}\n"
                             f"Private Key: {tron_pk}"))
+
 
 def send_usdt():
     wallet = load_wallet()
@@ -209,14 +211,34 @@ def get_trc20_usdt_balance(address):
 def receive_usdt():
     wallet = load_wallet()
     if not wallet:
-        print("Wallet not found.")
+        console.print("[red]❌ Wallet not found.[/red]")
         return
+
     eth_addr = wallet['ethereum']['address']
     tron_addr = wallet['tron']['address']
 
     console.print(Panel.fit(f"[bold green]Your USDT Receiving Addresses[/bold green]\n\n"
-                            f"[bold cyan]Ethereum (ERC20):[/bold cyan] {eth_addr}\n"
-                            f"[bold magenta]Tron (TRC20):[/bold magenta] {tron_addr}"))
+                            f"[bold cyan]1. Ethereum (ERC20):[/bold cyan] {eth_addr}\n"
+                            f"[bold magenta]2. Tron (TRC20):[/bold magenta] {tron_addr}",
+                            title="📥 USDT Wallets"))
+
+    choice = Prompt.ask("\n[bold yellow]Select the network to generate QR[/bold yellow]", choices=["1", "2"])
+
+    if choice == "1":
+        selected_address = eth_addr
+        network = "Ethereum (ERC20)"
+    else:
+        selected_address = tron_addr
+        network = "Tron (TRC20)"
+
+    console.print(Panel.fit(f"[bold cyan]{network} Address:[/bold cyan] {selected_address}",
+                            title=f"🧾 Selected: {network}"))
+
+    console.print("[bold green]Scan this QR to receive USDT:[/bold green]")
+    qr = qrcode.QRCode(border=1)
+    qr.add_data(selected_address)
+    qr.make(fit=True)
+    qr.print_ascii(invert=True)
 
 
 def print_menu(existing_wallet):
@@ -235,9 +257,12 @@ def print_menu(existing_wallet):
         console.print("[bold green][1][/bold green] Create Wallet")
         console.print("[bold red][4][/bold red] Exit")
 
+
 console.print(Panel.fit(
     "[bold cyan]Welcome to the USDT Wallet CLI[/bold cyan]\n[dim]Secure | Simple | Multi-chain[/dim]",
     border_style="white", title="USDT CLI", title_align="left"))
+
+
 def main_menu():
     if wallet_exists():
         while True:

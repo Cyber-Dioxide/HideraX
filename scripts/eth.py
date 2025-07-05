@@ -1,3 +1,4 @@
+import qrcode
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
@@ -73,11 +74,20 @@ def receive_eth():
         console.print("[red]❌ Wallet not found.[/red]\n")
         return
 
+    address = wallet["address"]
+
     table = Table(title="📥 Receive ETH", header_style="bold magenta")
     table.add_column("Network", style="cyan")
     table.add_column("Address", style="green")
-    table.add_row("Ethereum Mainnet", wallet["address"])
+    table.add_row("Ethereum Mainnet", address)
     console.print(table)
+
+    # Generate and display QR code once
+    console.print("[bold green]Scan this QR to receive ETH:[/bold green]")
+    qr = qrcode.QRCode(border=1)
+    qr.add_data(address)
+    qr.make(fit=True)
+    qr.print_ascii(invert=True)
 
 
 def get_eth_price_usdt():
