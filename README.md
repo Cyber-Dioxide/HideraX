@@ -14,6 +14,7 @@ Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT
 
 ![image](https://github.com/user-attachments/assets/54a486c0-537f-4b1e-819e-353425aba285)
 
+![image](https://github.com/user-attachments/assets/dd7155ac-8191-48a8-a6db-848e2ada5012)
 
 
 ## ✨ Why Choose This Wallet?
