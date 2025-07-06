@@ -9,7 +9,8 @@ Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT
 
 ---
 # 📸 Screenshots
-![Screenshot 2025-07-06 123108](https://github.com/user-attachments/assets/e72a83ca-88c6-492a-96e6-201f350e8729)
+![image](https://github.com/user-attachments/assets/02f73825-5d93-4a4c-b2e1-b7ef4aa49684)
+
 
 ![image](https://github.com/user-attachments/assets/54a486c0-537f-4b1e-819e-353425aba285)
 ![image](https://github.com/user-attachments/assets/8b2ba410-23d5-4910-8d2d-5c701674b3e0)
@@ -36,6 +37,10 @@ Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT
 - Polygon (POL)
 - Litecoing (LTC
 - Doge (DOGE)
+- Monero (XMR)
+- BNB 
+- DASH
+- ZCash (Zec)
 ---
 
 ## 🔐 Security Features
