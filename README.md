@@ -3,10 +3,14 @@
 A secure, local-first multi-crypto wallet CLI built for privacy-conscious users.  
 Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT, Dogecoin (DOGE), and more — right from your terminal.
 
+
+![Screenshot 2025-07-05 231153](https://github.com/user-attachments/assets/d2fc27bf-cc27-4161-a0ce-a8f989130f53)
+
+
 ---
 # 📸 Screenshots
+![Screenshot 2025-07-06 123108](https://github.com/user-attachments/assets/e72a83ca-88c6-492a-96e6-201f350e8729)
 
-![image](https://github.com/user-attachments/assets/23ae055b-0ccc-4ee9-85e0-a8aa0f37ecb2)
 ![image](https://github.com/user-attachments/assets/54a486c0-537f-4b1e-819e-353425aba285)
 ![image](https://github.com/user-attachments/assets/8b2ba410-23d5-4910-8d2d-5c701674b3e0)
 
