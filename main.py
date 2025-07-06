@@ -54,11 +54,7 @@ def execute_script(script_name):
 def print_banner():
     term_width = shutil.get_terminal_size().columns
     lines = logo.strip("\n").splitlines()
-
-    # Center each line manually
     centered_logo = "\n".join(line.center(term_width) for line in lines)
-
-    # Print gradient centered logo
     gradient_print(centered_logo, start_color="#8e44ad", end_color="#1abc9c")
 
 
@@ -87,6 +83,10 @@ def print_menu():
     table.add_row("4", "POL Wallet", "Polygon Network")
     table.add_row("5", "LTC Wallet", "Litecoin Network")
     table.add_row("6", "DOGE Wallet", "Dogecoin Network")
+    table.add_row("7", "BNB Wallet", "Binance Smart Chain")
+    table.add_row("8", "XMR Wallet", "Monero [Receive-Only • Linux]")
+    table.add_row("9", "DASH Wallet", "Dash [Receive-Only]")
+    table.add_row("10", "ZEC Wallet", "Zcash [Receive-Only]")
     table.add_row("0", "[bold red]Exit[/bold red]", "Leave application")
 
     console.print(table)
@@ -97,8 +97,11 @@ def main():
         clear_console()
         print_menu()
 
-        choice = Prompt.ask("[bold green]Enter your choice[/bold green]", choices=["0", "1", "2", "3", "4", "5", "6"],
-                            default="0")
+        choice = Prompt.ask(
+            "[bold green]Enter your choice[/bold green]",
+            choices=[str(i) for i in range(0, 11)],
+            default="0"
+        )
 
         script_map = {
             "1": "usdt.py",
@@ -106,14 +109,21 @@ def main():
             "3": "eth.py",
             "4": "pol.py",
             "5": "ltc.py",
-            "6": "doge.py"
+            "6": "doge.py",
+            "7": "bnb.py",
+            "8": "xmr.py",
+            "9": "dash.py",
+            "10": "zec.py"
         }
 
         if choice == "0":
             console.print("\n[bold green]✓ Exiting wallet manager. Have a great day![/bold green]\n")
             sys.exit(0)
         elif choice in script_map:
-            execute_script(script_map[choice])
+            if choice == "8" and platform.system() != "Linux":
+                console.print("[bold red]✖ XMR support is currently available for Linux only.[/bold red]")
+            else:
+                execute_script(script_map[choice])
         else:
             console.print("[bold red]✖ Invalid option selected.[/bold red]")
 
