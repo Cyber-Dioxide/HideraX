@@ -13,7 +13,7 @@ Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT
 
 
 ![image](https://github.com/user-attachments/assets/54a486c0-537f-4b1e-819e-353425aba285)
-![image](https://github.com/user-attachments/assets/8b2ba410-23d5-4910-8d2d-5c701674b3e0)
+
 
 
 ## ✨ Why Choose This Wallet?
@@ -41,6 +41,7 @@ Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT
 - BNB 
 - DASH
 - ZCash (Zec)
+- Solana (SOL)
 ---
 
 ## 🔐 Security Features
@@ -75,8 +76,8 @@ Clone the repository and follow platform-specific instructions:
 ```bash
 git clone https://github.com/Cyber-Dioxide/HideraX
 cd HideraX
-pip install -r requirements
-python main.py
+python3 install.py
+python3 main.py
 ``` 
 
 # 📬 Contact
