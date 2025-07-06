@@ -54,10 +54,13 @@ def view_wallet():
     if not wallet_exists():
         console.print("[red]❌ Wallet not found. Please create one first.[/red]\n")
         return
+
     w = Wallet(WALLET_NAME, db_uri=f"sqlite:///{DB_PATH}")
+    w.utxos_update()  # <-- Force update from network
     balance_sats = w.balance()
     balance_btc = satoshis_to_btc(balance_sats or 0)
     key = w.get_key()
+
     console.print(Panel.fit(f"[bold cyan]Wallet Address:[/bold cyan] {key.address}\n"
                             f"[bold cyan]Balance:[/bold cyan] {balance_btc:.8f} BTC\n"
                             f"[bold cyan]Private Key:[/bold cyan] {key.wif}",
@@ -107,6 +110,8 @@ def get_btc_price_usdt():
         return None
 
 
+from decimal import Decimal, ROUND_DOWN
+
 def send_btc():
     if not wallet_exists():
         console.print("[red]❌ Wallet not found.[/red]\n")
@@ -114,30 +119,49 @@ def send_btc():
 
     w = Wallet(WALLET_NAME, db_uri=f"sqlite:///{DB_PATH}")
     to_addr = Prompt.ask("[bold cyan]Enter recipient BTC address[/bold cyan]")
-    amount_btc = float(Prompt.ask("[bold cyan]Enter amount in BTC[/bold cyan]"))
-    fee_usdt = float(Prompt.ask("[bold cyan]Enter desired fee (in USDT)[/bold cyan]"))
-
-    btc_price = get_btc_price_usdt()
-    if btc_price is None:
-        console.print("[red]❌ Could not fetch BTC price from API.[/red]\n")
-        return
-
-    fee_btc = fee_usdt / btc_price
-    fee_sats = int(fee_btc * 1e8)
 
     try:
-        tx = w.send_to(to_addr, amount_btc, fee=fee_sats, offline=False, replace_by_fee=True)
+        # Amount in BTC, converted to satoshis
+        amount_btc = Decimal(Prompt.ask("[bold cyan]Enter amount in BTC[/bold cyan]")).quantize(
+            Decimal('0.00000001'), rounding=ROUND_DOWN)
+        amount_sats = int(amount_btc * Decimal(1e8))
+
+        # Fee directly in sats
+        fee_sats = int(Prompt.ask("[bold cyan]Enter desired fee (in SATOSHIS)[/bold cyan]"))
+    except Exception as e:
+        console.print(f"[red]❌ Invalid input. Reason: {e}[/red]\n")
+        return
+
+    console.print(Panel.fit(
+        f"""[bold cyan]Debug Info[/bold cyan]
+[blue]Recipient:[/blue] {to_addr}
+[blue]Amount (SATS):[/blue] {amount_sats}
+[blue]Fee (SATS):[/blue] {fee_sats}
+""", title="🔍 Debug", border_style="yellow"))
+
+    try:
+        # Finally send using output_arr (correct param name!)
+        tx = w.send(
+            output_arr=[(to_addr, amount_sats)],
+            fee=fee_sats,
+            replace_by_fee=True,
+            broadcast=True  # Set to True to broadcast immediately
+        )
+
         console.print(Panel.fit(f"[green]✅ Transaction Sent![/green]\n[bold cyan]TXID:[/bold cyan] {tx.txid}"))
 
-        if fee_usdt < 1:
-            console.print("[yellow]⚠️ Low fee: May take several hours to confirm.[/yellow]")
-        elif fee_usdt < 3:
+        if fee_sats < 300:
+            console.print("[yellow]⚠️ Low fee: May take hours to confirm.[/yellow]")
+        elif fee_sats < 1000:
             console.print("[blue]⏳ Medium fee: ~30-60 minutes[/blue]")
         else:
-            console.print("[bold green]🚀 High fee: Likely confirmed within ~10 minutes[/bold green]")
-        console.print()
+            console.print("[bold green]🚀 High fee: Likely confirmed in ~10 minutes[/bold green]")
+
     except Exception as e:
-        console.print(f"[red]❌ Error sending BTC:[/red] {e}\n")
+        console.print(f"[bold red]❌ Error sending BTC:[/bold red] {e}")
+
+
+
 
 
 def main_menu():
