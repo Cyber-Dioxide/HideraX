@@ -1,7 +1,6 @@
 import os
 import platform
 import shutil
-import subprocess
 import sys
 from pathlib import Path
 
@@ -9,10 +8,8 @@ from rgbprint import gradient_print
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
-from rich.style import Style
 from rich.table import Table
 from rich import box
-from rich.text import Text
 
 console = Console()
 
@@ -26,7 +23,7 @@ logo = """
 |  |  |  | |  | |       \ |   ____||   _  \        /   \     \  \ /  / 
 |  |__|  | |  | |  .--.  ||  |__   |  |_)  |      /  ^  \     \  V  /  
 |   __   | |  | |  |  |  ||   __|  |      /      /  /_\  \     >   <   
-|  |  |  | |  | |  '--'  ||  |____ |  |\  \----./  _____  \   /  .  \  
+|  |  |  | |  | |  '--'  ||  |____ |  | \  \----./  _____  \   /  .  \  
 |__|  |__| |__| |_______/ |_______|| _| `._____/__/     \__\ /__/ \__\ 
                                                                                                        
 """
@@ -58,7 +55,7 @@ def print_banner():
     gradient_print(centered_logo, start_color="#8e44ad", end_color="#1abc9c")
 
 
-def print_menu():
+def print_menu(script_map):
     clear_console()
     print()
     print_banner()
@@ -77,53 +74,51 @@ def print_menu():
     table.add_column("Wallet", style="bold white")
     table.add_column("Network Info", style="dim")
 
-    table.add_row("1", "USDT Wallet", "[TRC20] | [ERC20]")
-    table.add_row("2", "BTC Wallet", "Bitcoin Network")
-    table.add_row("3", "ETH Wallet", "Ethereum Network")
-    table.add_row("4", "POL Wallet", "Polygon Network")
-    table.add_row("5", "LTC Wallet", "Litecoin Network")
-    table.add_row("6", "DOGE Wallet", "Dogecoin Network")
-    table.add_row("7", "BNB Wallet", "Binance Smart Chain")
-    table.add_row("8", "XMR Wallet", "Monero [Receive-Only • Linux]")
-    table.add_row("9", "DASH Wallet", "Dash [Receive-Only]")
-    table.add_row("10", "ZEC Wallet", "Zcash [Receive-Only]")
-    table.add_row("0", "[bold red]Exit[/bold red]", "Leave application")
+    for key, info in sorted(script_map.items(), key=lambda x: x[1]["name"].lower()):
+        table.add_row(key, info["name"], info["network"])
 
+    table.add_row("0", "[bold red]Exit[/bold red]", "Leave application")
     console.print(table)
 
 
 def main():
+    # Unified wallet mapping
+    script_map = {
+        "1": {"name": "ADA Wallet", "network": "Cardano [Receive-Only]", "script": "ada-atom.py"},
+        "2": {"name": "ATOM Wallet", "network": "Cosmos [Receive-Only]", "script": "ada-atom.py"},
+        "3": {"name": "BCH Wallet", "network": "Bitcoin Cash Network", "script": "bch.py"},
+        "4": {"name": "BNB Wallet", "network": "Binance Smart Chain", "script": "bnb.py"},
+        "5": {"name": "BTC Wallet", "network": "Bitcoin Network", "script": "btc.py"},
+        "6": {"name": "DASH Wallet", "network": "Dash [Receive-Only]", "script": "dash.py"},
+        "7": {"name": "DOGE Wallet", "network": "Dogecoin Network", "script": "doge.py"},
+        "8": {"name": "ETH Wallet", "network": "Ethereum Network", "script": "eth.py"},
+        "9": {"name": "LTC Wallet", "network": "Litecoin Network", "script": "ltc.py"},
+        "10": {"name": "POL Wallet", "network": "Polygon Network", "script": "pol.py"},
+        "11": {"name": "SOL Wallet", "network": "Solana [Receive-Only]", "script": "sol.py"},
+        "12": {"name": "USDT Wallet", "network": "[TRC20] | [ERC20]", "script": "usdt.py"},
+        "13": {"name": "XMR Wallet", "network": "Monero [Receive-Only • Linux]", "script": "xmr.py"},
+        "14": {"name": "ZEC Wallet", "network": "Zcash [Receive-Only]", "script": "zec.py"},
+    }
+
     while True:
         clear_console()
-        print_menu()
+        print_menu(script_map)
 
         choice = Prompt.ask(
             "[bold green]Enter your choice[/bold green]",
-            choices=[str(i) for i in range(0, 11)],
+            choices=[str(i) for i in range(0, len(script_map) + 1)],
             default="0"
         )
-
-        script_map = {
-            "1": "usdt.py",
-            "2": "btc.py",
-            "3": "eth.py",
-            "4": "pol.py",
-            "5": "ltc.py",
-            "6": "doge.py",
-            "7": "bnb.py",
-            "8": "xmr.py",
-            "9": "dash.py",
-            "10": "zec.py"
-        }
 
         if choice == "0":
             console.print("\n[bold green]✓ Exiting wallet manager. Have a great day![/bold green]\n")
             sys.exit(0)
         elif choice in script_map:
-            if choice == "8" and platform.system() != "Linux":
+            # XMR restriction
+            if script_map[choice]["name"].startswith("XMR") and platform.system() != "Linux":
                 console.print("[bold red]✖ XMR support is currently available for Linux only.[/bold red]")
             else:
-                execute_script(script_map[choice])
+                execute_script(script_map[choice]["script"])
         else:
             console.print("[bold red]✖ Invalid option selected.[/bold red]")
 

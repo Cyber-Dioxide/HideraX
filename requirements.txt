@@ -10,3 +10,5 @@ base58~=2.1.1
 pycoin~=0.92.20241201
 mnemonic~=0.21
 pynacl
+bitcash
+bip_utils
