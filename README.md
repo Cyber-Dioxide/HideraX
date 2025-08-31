@@ -9,7 +9,8 @@ Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT
 
 ---
 # 📸 Screenshots
-![image](https://github.com/user-attachments/assets/02f73825-5d93-4a4c-b2e1-b7ef4aa49684)
+
+<img width="1469" height="918" alt="2025-08-31_17-49" src="https://github.com/user-attachments/assets/4b37b96d-a229-41f6-8f3e-a29b887b66fa" />
 
 
 ![image](https://github.com/user-attachments/assets/54a486c0-537f-4b1e-819e-353425aba285)
