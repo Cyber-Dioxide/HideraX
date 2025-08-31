@@ -44,6 +44,9 @@ Easily manage Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), Polygon (POL), USDT
 - DASH
 - ZCash (Zec)
 - Solana (SOL)
+- ADA
+- Atom
+- BCH
 ---
 
 ## 🔐 Security Features
